@@ -1,6 +1,8 @@
 package com.stackroute.keepnote.model;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /*
  * The class "Note" will be acting as the data model for the Note data in the ArrayList.
@@ -14,56 +16,71 @@ public class Note {
 	 * the user but should be always initialized with the system date
 	 */
 
+	private int noteId;
+
+	private String noteTitle;
+
+	private String noteStatus;
+
+	private String noteContent;
+
+	private LocalDateTime createdAt = LocalDateTime.now();
+
 	public Note() {
 	}
 
 	/* All the getters/setters definition should be implemented here */
 
-	public int getNoteId() {
-		return 0;
+    public int getNoteId() {
+        return noteId;
+    }
 
-	}
+    public void setNoteId(int noteId) {
+        this.noteId = noteId;
+    }
 
-	public void setNoteId(int intid) {
+    public String getNoteTitle() {
+        return noteTitle;
+    }
 
-	}
+    public void setNoteTitle(String noteTitle) {
+        this.noteTitle = noteTitle;
+    }
 
-	public String getNoteTitle() {
-		return null;
-	}
+    public String getNoteStatus() {
+        return noteStatus;
+    }
 
-	public void setNoteTitle(String string) {
+    public void setNoteStatus(String noteStatus) {
+        this.noteStatus = noteStatus;
+    }
 
-	}
+    public String getNoteContent() {
+        return noteContent;
+    }
 
-	public String getNoteContent() {
-		return null;
-	}
+    public void setNoteContent(String noteContent) {
+        this.noteContent = noteContent;
+    }
 
-	public void setNoteContent(String string) {
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 
-	}
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public String getNoteStatus() {
-		return null;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Note note = (Note) o;
+        return noteId == note.noteId;
+    }
 
-	public void setNoteStatus(String string) {
-
-	}
-
-	public LocalDateTime getCreatedAt() {
-		return null;
-	}
-
-	public void setCreatedAt(LocalDateTime localdatetime) {
-
-	}
-
-	/* Override the toString() method */
-
-	@Override
-	public String toString() {
-		return null;
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(noteId);
+    }
 }

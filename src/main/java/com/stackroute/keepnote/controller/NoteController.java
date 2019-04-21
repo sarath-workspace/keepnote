@@ -1,10 +1,28 @@
 package com.stackroute.keepnote.controller;
 
 
-/*Annotate the class with @Controller annotation. @Controller annotation is used to mark 
+import com.stackroute.keepnote.model.Note;
+import com.stackroute.keepnote.repository.NoteRepository;
+import javafx.application.Application;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/*Annotate the class with @Controller annotation. @Controller annotation is used to mark
  * any POJO class as a controller so that Spring can recognize this class as a Controller
  * */
-
+@Controller
 public class NoteController {
 	/*
 	 * From the problem statement, we can understand that the application
@@ -16,7 +34,32 @@ public class NoteController {
 	 * 3. Delete an existing note.
 	 * 4. Update an existing note.
 	 */
-	
+
+
+	private ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/beans.xml");
+	private Note note = (Note)applicationContext.getBean("note");
+    private NoteRepository noteRepository = (NoteRepository)applicationContext.getBean("noteRepository");
+
+	@RequestMapping("/")
+	public String getAllNotes(Model model) {
+		Map<String, Object> responseobject = new HashMap<>();
+		responseobject.put("notes", noteRepository.getAllNotes());
+		model.addAttribute("status", "success");
+		model.mergeAttributes(responseobject);
+		return "index";
+	}
+
+	@RequestMapping("/saveNote")
+	public String addNote(@ModelAttribute Note noteDetails, Model model) {
+		noteRepository.addNote(noteDetails);
+		return getAllNotes(model);
+	}
+
+	@RequestMapping("/deleteNote")
+	public String deleteNote(@RequestParam(name = "noteId") int noteId) {
+		noteRepository.deleteNote(noteId);
+		return "redirect:/";
+	}
 	/* 
 	 * Get the application context from resources/beans.xml file using ClassPathXmlApplicationContext() class.
 	 * Retrieve the Note object from the context.
